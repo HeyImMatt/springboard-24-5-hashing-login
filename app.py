@@ -46,6 +46,8 @@ def post_user_reg_route():
 
         db.session.add(user)
         db.session.commit()
+
+        session["username"] = user.username
     
     return redirect('/secret')
 
