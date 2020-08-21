@@ -59,6 +59,24 @@ def get_login_form_route():
 
     return render_template('login_form.html', form=form)
 
+@app.route('/login', methods=['POST'])
+def post_user_login_route():
+    """User login route"""
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        pwd = form.password.data
+
+        user = User.authenticate(username=username, pwd=pwd)
+
+        if user:
+            session["username"] = user.username
+            return redirect('/secret')
+        
+        return redirect('/login')
+
 @app.route('/secret')
 def secret_route():
     return '<h3>You made it!</h3>'
