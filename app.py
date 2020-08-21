@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///hashing_exercise"
@@ -50,6 +50,14 @@ def post_user_reg_route():
         session["username"] = user.username
     
     return redirect('/secret')
+
+@app.route('/login')
+def get_login_form_route():
+    """Login registration route"""
+
+    form = LoginForm()
+
+    return render_template('login_form.html', form=form)
 
 @app.route('/secret')
 def secret_route():
