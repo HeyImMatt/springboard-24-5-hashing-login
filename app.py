@@ -49,7 +49,7 @@ def post_user_reg_route():
 
         session['username'] = user.username
     
-    return redirect('/secret')
+    return redirect(f'/users/{user.username}')
 
 @app.route('/login')
 def get_login_form_route():
@@ -73,14 +73,15 @@ def post_user_login_route():
 
         if user:
             session['username'] = user.username
-            return redirect('/secret')
+            return redirect(f'/users/{user.username}')
         
         return redirect('/login')
 
-@app.route('/secret')
-def secret_route():
+@app.route('/users/<username>')
+def users_route(username):
 
     if 'username' in session:
-        return '<h3>You made it!</h3>'
+        user = User.query.filter_by(username=username).first()
+        return render_template('/user_info.html', user=user)
 
     return redirect('/login')
