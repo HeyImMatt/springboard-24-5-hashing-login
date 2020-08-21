@@ -47,7 +47,7 @@ def post_user_reg_route():
         db.session.add(user)
         db.session.commit()
 
-        session["username"] = user.username
+        session['username'] = user.username
     
     return redirect('/secret')
 
@@ -72,11 +72,15 @@ def post_user_login_route():
         user = User.authenticate(username=username, pwd=pwd)
 
         if user:
-            session["username"] = user.username
+            session['username'] = user.username
             return redirect('/secret')
         
         return redirect('/login')
 
 @app.route('/secret')
 def secret_route():
-    return '<h3>You made it!</h3>'
+
+    if 'username' in session:
+        return '<h3>You made it!</h3>'
+
+    return redirect('/login')
