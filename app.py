@@ -21,10 +21,34 @@ def home_route():
 
     return redirect('/register')
 
-@app.route('/register', methods=['GET', 'POST'])
-def register_route():
+@app.route('/register')
+def get_reg_form_route():
     """New user registration route"""
 
     form = RegisterForm()
 
     return render_template('register_form.html', form=form)
+
+@app.route('/register', methods=['POST'])
+def post_user_reg_route():
+    """New user registration route"""
+
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        username = form.username.data
+        pwd = form.password.data
+        email = form.email.data
+        first_name = form.first_name.data
+        last_name = form.last_name.data
+
+        user = User.register(username=username, pwd=pwd, email=email, first_name=first_name, last_name=last_name)
+
+        db.session.add(user)
+        db.session.commit()
+    
+    return redirect('/secret')
+
+@app.route('/secret')
+def secret_route():
+    return '<h3>You made it!</h3>'
