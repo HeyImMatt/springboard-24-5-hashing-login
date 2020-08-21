@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Feedback</h1>
+
+<form method="POST">
+
+  {% include 'form_logic.html' %}
+
+  <button type="submit">Add</button>
+
+</form>
+
+{% endblock %}

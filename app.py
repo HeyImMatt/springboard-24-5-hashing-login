@@ -1,7 +1,7 @@
 from flask import Flask, render_template, redirect, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, FeedbackForm
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgres:///hashing_exercise"
@@ -79,9 +79,20 @@ def post_user_login_route():
 
 @app.route('/users/<username>')
 def users_route(username):
+    """Show user info GET route"""
 
     if 'username' in session:
         user = User.query.filter_by(username=username).first()
         return render_template('/user_info.html', user=user)
 
+    return redirect('/login')
+
+@app.route('/users/<username>/feedback/add')
+def get_feedback_form_route(username):
+    """Feedback form GET route"""
+
+    if 'username' in session:
+        form = FeedbackForm()
+        return render_template('/feedback_form.html', form=form)
+    
     return redirect('/login')
