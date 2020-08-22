@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, session, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User
+from models import connect_db, db, User, Feedback
 from forms import RegisterForm, LoginForm, FeedbackForm
 
 app = Flask(__name__)
@@ -96,3 +96,22 @@ def get_feedback_form_route(username):
         return render_template('/feedback_form.html', form=form)
     
     return redirect('/login')
+
+@app.route('/users/<username>/feedback/add', methods=['POST'])
+def post_feedback_form_route(username):
+    """Feedback form POST route"""
+
+    form = FeedbackForm()
+
+    if form.validate_on_submit():
+        title = form.title.data
+        content = form.content.data
+
+
+        if 'username' in session:
+            user_feedback = Feedback(title=title, content=content, username=username)
+            db.session.add(user_feedback)
+            db.session.commit()
+            return redirect(f'/users/{username}')
+        
+        return redirect('/login')

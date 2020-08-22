@@ -15,7 +15,7 @@ def connect_db(app):
 class User(db.Model):
     """User Model"""
 
-    __tablename__ = "users"
+    __tablename__ = 'users'
 
     username = db.Column(db.String(20), primary_key=True, nullable=False, unique=True)
     password = db.Column(db.Text, nullable=False)
@@ -45,13 +45,13 @@ class User(db.Model):
 
 class Feedback(db.Model):
     """Feedback model"""
-
+    
     __tablename__ = 'feedback'
 
-    id = db.Column(db.Integer(), primary_key=True, auto_increment=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
     username = db.Column(db.Text, db.ForeignKey('users.username'))
 
-    user = db.relationship('User', backref='feedback')
+    users = db.relationship('User', backref='feedback')
     
