@@ -19,7 +19,7 @@
 <p>Title: {{f.title}}</p>
 <p>Content: {{f.content}}</p>
 <a href="/feedback/{{f.id}}/update"><button>Edit Feedback</button></a>
-<form action="/feedback/{{f.id}}/delete" type="POST">
+<form action="/feedback/{{f.id}}/delete" method="POST">
   <button>Delete Feedback</button>
 </form>
 

@@ -149,3 +149,14 @@ def update_feedback_form_edit_route(id):
         return redirect(f'/users/{user_feedback.username}')
     
     return redirect(f'/feedback/{id}/update')
+
+@app.route('/feedback/<int:id>/delete', methods=['POST'])
+def delete_feedback_route(id):
+    """Delete feedback route"""
+
+    if 'username' in session:
+        user_feedback = Feedback.query.get_or_404(id)
+        db.session.delete(user_feedback)
+        db.session.commit()
+
+        return redirect(f'/users/{user_feedback.username}')
