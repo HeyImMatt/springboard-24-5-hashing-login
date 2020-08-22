@@ -162,12 +162,21 @@ def delete_feedback_route(id):
         return redirect(f'/users/{user_feedback.username}')
 
 @app.route('/users/<username>/delete', methods=['POST'])
-def user_dekete_route(username):
-    """Show user info GET route"""
+def user_delete_route(username):
+    """Delete user route"""
 
     if 'username' in session:
         user = User.query.filter_by(username=username).first()
         db.session.delete(user)
         db.session.commit()
+
+    return redirect('/login')
+
+@app.route('/users/logout')
+def user_logout_route():
+    """User logout route"""
+
+    if 'username' in session:
+        session.pop('username')
 
     return redirect('/login')
