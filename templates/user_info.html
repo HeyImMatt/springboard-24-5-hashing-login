@@ -14,13 +14,19 @@
 
 <h1>Feedback</h1>
 
-{% for f in feedback %}
+{% for f in feedback if f %}
 
 <p>Title: {{f.title}}</p>
-
 <p>Content: {{f.content}}</p>
+<a href="/feedback/{{f.id}}/update"><button>Edit Feedback</button></a>
+<form action="/feedback/{{f.id}}/delete" type="POST">
+  <button>Delete Feedback</button>
+</form>
 
 {% endfor %}
+<br>
+<br>
+<a href="/users/{{user.username}}/feedback/add">Add Feedback</a>
 
 {% endif %}
 
