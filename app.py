@@ -119,13 +119,33 @@ def post_feedback_form_route(username):
 
 @app.route('/feedback/<int:id>/update')
 def update_feedback_form_route(id):
-    """Edit feedback route"""
+    """Edit feedback GET route"""
 
     if 'username' in session:
         user_feedback = Feedback.query.get_or_404(id)
-        print('***************************')
-        print(user_feedback)
         form = FeedbackForm(obj=user_feedback)
-        return render_template('/feedback_form.html', form=form)
+        return render_template('/feedback_form.html', form=form, edit_mode=True, id=user_feedback.id)
     
     return redirect('/login')
+
+@app.route('/feedback/<int:id>/update', methods=['POST'])
+def update_feedback_form_edit_route(id):
+    """Edit feedback POST route"""
+
+    form = FeedbackForm()
+
+    if form.validate_on_submit() and 'username' in session:
+        title = form.title.data
+        content = form.content.data
+
+        user_feedback = Feedback.query.get_or_404(id)
+
+        user_feedback.title = title
+        user_feedback.content = content
+
+        db.session.add(user_feedback)
+        db.session.commit()
+
+        return redirect(f'/users/{user_feedback.username}')
+    
+    return redirect(f'/feedback/{id}/update')

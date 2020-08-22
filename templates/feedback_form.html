@@ -3,12 +3,15 @@
 
 <h1>Feedback</h1>
 
+  
+{% if edit_mode %}
+<form action="/feedback/{{id}}/update" method="POST">
+  <button type="submit">Update</button>
+{% else %}
 <form method="POST">
-
-  {% include 'form_logic.html' %}
-
   <button type="submit">Add</button>
-
+{% endif %}
+{% include 'form_logic.html' %}
 </form>
 
 {% endblock %}
