@@ -169,6 +169,7 @@ def user_delete_route(username):
         user = User.query.filter_by(username=username).first()
         db.session.delete(user)
         db.session.commit()
+        session.pop('username')
 
     return redirect('/login')
 
