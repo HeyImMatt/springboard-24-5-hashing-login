@@ -116,3 +116,16 @@ def post_feedback_form_route(username):
             return redirect(f'/users/{username}')
         
         return redirect('/login')
+
+@app.route('/feedback/<int:id>/update')
+def update_feedback_form_route(id):
+    """Edit feedback route"""
+
+    if 'username' in session:
+        user_feedback = Feedback.query.get_or_404(id)
+        print('***************************')
+        print(user_feedback)
+        form = FeedbackForm(obj=user_feedback)
+        return render_template('/feedback_form.html', form=form)
+    
+    return redirect('/login')
