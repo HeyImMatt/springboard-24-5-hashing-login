@@ -12,6 +12,11 @@
 
 <p>Name: {{user.first_name}}  {{user.last_name}}</p>
 
+<form action="/users/{{user.username}}/delete" method="POST">
+  <button>Delete User</button>
+</form>
+
+
 <h1>Feedback</h1>
 
 {% for f in feedback if f %}
