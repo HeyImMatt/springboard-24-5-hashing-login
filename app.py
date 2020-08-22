@@ -83,7 +83,8 @@ def users_route(username):
 
     if 'username' in session:
         user = User.query.filter_by(username=username).first()
-        return render_template('/user_info.html', user=user)
+        feedback = Feedback.query.filter_by(username=username)
+        return render_template('/user_info.html', user=user, feedback=feedback)
 
     return redirect('/login')
 

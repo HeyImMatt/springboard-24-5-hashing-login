@@ -12,6 +12,16 @@
 
 <p>Name: {{user.first_name}}  {{user.last_name}}</p>
 
+<h1>Feedback</h1>
+
+{% for f in feedback %}
+
+<p>Title: {{f.title}}</p>
+
+<p>Content: {{f.content}}</p>
+
+{% endfor %}
+
 {% endif %}
 
 {% endblock %}
